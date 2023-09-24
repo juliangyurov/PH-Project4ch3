@@ -14,6 +14,7 @@ class ViewController: UIViewController , WKNavigationDelegate {
     var websites = ["developer.apple.com","hackingwithswift.com","www.kodeco.com","iosapptemplates.com",
                     "www.swift.org","iosdevweekly.com","www.donnywals.com","www.avanderlee.com",
                     "www.swiftbysundell.com","stackoverflow.com","seanallen.teachable.com","github.com","wikipedia.org"]
+    var index = 0
     
     override func loadView() {
         webView = WKWebView()
@@ -40,7 +41,8 @@ class ViewController: UIViewController , WKNavigationDelegate {
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress) , options: .new ,context: nil)
         
-        let url = URL(string: "https://" + websites[Int.random(in: 0...websites.count-1)])!
+        //let url = URL(string: "https://" + websites[Int.random(in: 0...websites.count-1)])!
+        let url = URL(string: "https://" + websites[index])!
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
