@@ -13,7 +13,7 @@ class ViewController: UIViewController , WKNavigationDelegate {
     var progressView: UIProgressView!
     var websites = ["developer.apple.com","hackingwithswift.com","www.kodeco.com","iosapptemplates.com",
                     "www.swift.org","iosdevweekly.com","www.donnywals.com","www.avanderlee.com",
-                    "www.swiftbysundell.com","stackoverflow.com","seanallen.teachable.com","github.com"]
+                    "www.swiftbysundell.com","stackoverflow.com","seanallen.teachable.com","github.com","wikipedia.org"]
     
     override func loadView() {
         webView = WKWebView()
@@ -26,19 +26,21 @@ class ViewController: UIViewController , WKNavigationDelegate {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open", style: .plain, target: self, action: #selector(openTapped))
         
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let spacer  = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let back    = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: webView, action: #selector(webView.goBack))
+        let forward = UIBarButtonItem(image: UIImage(systemName: "chevron.forward"), style: .plain, target: webView, action: #selector(webView.goForward))
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         
         progressView = UIProgressView(progressViewStyle: .default)
         progressView.sizeToFit()
         let progressButton = UIBarButtonItem(customView: progressView)
         
-        toolbarItems = [progressButton,spacer,refresh]
+        toolbarItems = [progressButton,spacer,back,spacer,forward,spacer,refresh]
         navigationController?.isToolbarHidden = false
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress) , options: .new ,context: nil)
         
-        let url = URL(string: "https://" + websites[Int.random(in: 0...websites.count)])!
+        let url = URL(string: "https://" + websites[Int.random(in: 0...websites.count-1)])!
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
@@ -80,6 +82,10 @@ class ViewController: UIViewController , WKNavigationDelegate {
                 }
             }
         }
+        let ac = UIAlertController(title: "Project4", message: "This website is blocked !", preferredStyle: .alert)
+        //ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        ac.addAction(UIAlertAction(title: "Continue", style: .default))
+        present(ac, animated: true)
         decisionHandler(.cancel)
     }
 }
