@@ -84,7 +84,7 @@ class ViewController: UIViewController , WKNavigationDelegate {
                 }
             }
         }
-        let ac = UIAlertController(title: "Project4", message: "This website is blocked !", preferredStyle: .alert)
+        let ac = UIAlertController(title: url?.absoluteString, message: "This website is blocked !", preferredStyle: .alert)
         //ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         ac.addAction(UIAlertAction(title: "Continue", style: .default))
         present(ac, animated: true)
